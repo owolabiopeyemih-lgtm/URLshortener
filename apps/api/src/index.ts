@@ -36,8 +36,11 @@ app.use('/api/analytics', analyticsRoutes)
 // Short URL redirect — must be last
 app.get('/:shortCode([a-zA-Z0-9]{4,10})', redirectToUrl)
 
-app.listen(PORT, () => {
-  console.log(`[API] Server running on http://localhost:${PORT}`)
-})
+// Only bind a port when running locally — Vercel handles listening in serverless
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`[API] Server running on http://localhost:${PORT}`)
+  })
+}
 
 export default app
