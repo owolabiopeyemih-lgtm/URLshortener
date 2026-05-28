@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowDown } from 'lucide-react'
 import { Footer } from '@/components/Footer'
 import { URLShortener } from '@/components/URLShortener'
 import { AnimatedFeatureGrid } from '@/components/AnimatedFeatureGrid'
@@ -162,31 +162,23 @@ export default function Home() {
         <div className="relative max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-indigo-100/70 dark:bg-brand-500/10 border border-indigo-300 dark:border-brand-500/30 text-xs font-semibold text-indigo-700 dark:text-brand-300 uppercase tracking-widest mb-4 sm:mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            Free forever — no credit card
+            Free forever — no sign-up needed
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter text-indigo-950 dark:text-white mb-4 sm:mb-5 leading-[1.05]">
             Start shortening for free
           </h2>
           <p className="text-indigo-800 dark:text-slate-400 mb-7 sm:mb-10 text-sm sm:text-base leading-relaxed max-w-lg mx-auto px-1">
-            Create an account to save your links, track analytics, and manage everything from one dashboard.
+            No sign-up required. Paste a URL, get a short link, and share it instantly — completely free.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
-            <a
-              href="/register"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-white text-indigo-900 dark:bg-brand-500 dark:text-white font-bold text-base hover:bg-indigo-50 dark:hover:bg-brand-600 shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:shadow-[0_6px_28px_rgba(0,0,0,0.16)] dark:shadow-[0_0_40px_rgba(99,102,241,0.45)] dark:hover:shadow-[0_0_55px_rgba(99,102,241,0.60)] transition-all duration-200"
-            >
-              Get started free
-              <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
-              href="/login"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl border border-indigo-400 dark:border-brand-500/40 text-indigo-800 dark:text-brand-300 font-semibold text-base hover:bg-indigo-200/60 dark:hover:bg-brand-500/10 hover:border-indigo-500 dark:hover:border-brand-500/65 transition-all duration-200"
-            >
-              Sign in
-            </a>
-          </div>
+          <a
+            href="#home"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-white text-indigo-900 dark:bg-brand-500 dark:text-white font-bold text-base hover:bg-indigo-50 dark:hover:bg-brand-600 shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:shadow-[0_6px_28px_rgba(0,0,0,0.16)] dark:shadow-[0_0_40px_rgba(99,102,241,0.45)] dark:hover:shadow-[0_0_55px_rgba(99,102,241,0.60)] transition-all duration-200"
+          >
+            Shorten a link now
+            <ArrowDown className="w-4 h-4" />
+          </a>
         </div>
       </section>
 

@@ -3,7 +3,6 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import morgan from 'morgan'
-import { authRoutes } from './routes/auth.routes'
 import { urlRoutes } from './routes/url.routes'
 import { analyticsRoutes } from './routes/analytics.routes'
 import { redirectToUrl } from './controllers/url.controller'
@@ -29,7 +28,6 @@ app.use(generalLimiter)
 app.get('/health', (_req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }))
 
 // API routes
-app.use('/api/auth', authRoutes)
 app.use('/api', urlRoutes)
 app.use('/api/analytics', analyticsRoutes)
 

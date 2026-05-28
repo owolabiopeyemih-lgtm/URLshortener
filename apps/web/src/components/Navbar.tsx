@@ -1,15 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { Zap, LayoutDashboard, Sun, Moon } from 'lucide-react'
-import { useAuth } from './Providers'
+import { Zap, Sun, Moon } from 'lucide-react'
 import { useTheme } from './Providers'
 
 export function Navbar() {
-  const { user } = useAuth()
   const { theme, toggleTheme } = useTheme()
-  const pathname = usePathname()
 
   return (
     <header className="sticky top-0 z-50 bg-white/85 dark:bg-dark-800 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/[0.08] dark:shadow-[0_1px_12px_rgba(0,0,0,0.4)]">
@@ -25,33 +21,17 @@ export function Navbar() {
           </span>
         </Link>
 
-        {/* Right — theme toggle + dashboard */}
-        <div className="flex items-center gap-1">
-          <button
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            className="p-2.5 rounded-xl text-slate-400 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-dark-700 transition-all duration-200"
-          >
-            {theme === 'dark'
-              ? <Sun  className="w-[1.05rem] h-[1.05rem]" />
-              : <Moon className="w-[1.05rem] h-[1.05rem]" />
-            }
-          </button>
-
-          {user && (
-            <Link
-              href="/dashboard"
-              className={`flex items-center gap-2 text-sm px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
-                pathname === '/dashboard'
-                  ? 'text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/40'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-dark-700'
-              }`}
-            >
-              <LayoutDashboard className="w-4 h-4" />
-              <span className="hidden sm:inline">Dashboard</span>
-            </Link>
-          )}
-        </div>
+        {/* Right — theme toggle only */}
+        <button
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+          className="p-2.5 rounded-xl text-slate-400 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-dark-700 transition-all duration-200"
+        >
+          {theme === 'dark'
+            ? <Sun  className="w-[1.05rem] h-[1.05rem]" />
+            : <Moon className="w-[1.05rem] h-[1.05rem]" />
+          }
+        </button>
       </div>
     </header>
   )

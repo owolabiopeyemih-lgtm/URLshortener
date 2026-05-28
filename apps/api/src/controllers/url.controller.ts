@@ -1,25 +1,23 @@
-import { Response, NextFunction } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import geoip from 'geoip-lite'
 import { prisma } from '../config/database'
 import { cache } from '../config/redis'
 import { generateShortCode } from '../utils/shortCode'
 import { createUrlSchema } from '../utils/validation'
 import { parseDevice } from '../utils/deviceParser'
-import { AuthRequest } from '../middleware/auth.middleware'
 
 const RESERVED_CODES = new Set(['api', 'health', 'favicon.ico', 'robots.txt', 'sitemap.xml'])
 const CACHE_TTL = 3600
 
 const SHORT_URL_BASE = process.env.SHORT_URL_BASE || 'http://localhost:3001'
 
-export async function createShortUrl(req: AuthRequest, res: Response) {
+export async function createShortUrl(req: Request, res: Response) {
   const parsed = createUrlSchema.safeParse(req.body)
   if (!parsed.success) {
     return res.status(400).json({ error: parsed.error.errors[0].message })
   }
 
   const { originalUrl, customAlias } = parsed.data
-  const userId = req.userId || null
 
   if (customAlias) {
     if (RESERVED_CODES.has(customAlias)) {
@@ -44,7 +42,7 @@ export async function createShortUrl(req: AuthRequest, res: Response) {
   }
 
   const url = await prisma.url.create({
-    data: { originalUrl, shortCode, userId },
+    data: { originalUrl, shortCode },
     select: { id: true, originalUrl: true, shortCode: true, clicks: true, createdAt: true },
   })
 
@@ -55,7 +53,7 @@ export async function createShortUrl(req: AuthRequest, res: Response) {
   })
 }
 
-export async function redirectToUrl(req: AuthRequest, res: Response, next: NextFunction) {
+export async function redirectToUrl(req: Request, res: Response, next: NextFunction) {
   const { shortCode } = req.params
 
   if (RESERVED_CODES.has(shortCode)) {
@@ -78,27 +76,12 @@ export async function redirectToUrl(req: AuthRequest, res: Response, next: NextF
   return res.redirect(301, originalUrl)
 }
 
-export async function getUserUrls(req: AuthRequest, res: Response) {
-  const urls = await prisma.url.findMany({
-    where: { userId: req.userId },
-    orderBy: { createdAt: 'desc' },
-    select: { id: true, originalUrl: true, shortCode: true, clicks: true, createdAt: true },
-  })
-
-  return res.json({
-    urls: urls.map((u) => ({ ...u, shortUrl: `${SHORT_URL_BASE}/${u.shortCode}` })),
-  })
-}
-
-export async function deleteUrl(req: AuthRequest, res: Response) {
+export async function deleteUrl(req: Request, res: Response) {
   const { id } = req.params
 
   const url = await prisma.url.findUnique({ where: { id } })
   if (!url) {
     return res.status(404).json({ error: 'Link not found' })
-  }
-  if (url.userId !== req.userId) {
-    return res.status(403).json({ error: 'You do not own this link' })
   }
 
   await prisma.url.delete({ where: { id } })
@@ -107,7 +90,7 @@ export async function deleteUrl(req: AuthRequest, res: Response) {
   return res.json({ success: true })
 }
 
-async function trackClick(shortCode: string, req: AuthRequest) {
+async function trackClick(shortCode: string, req: Request) {
   const url = await prisma.url.findUnique({ where: { shortCode }, select: { id: true } })
   if (!url) return
 
@@ -124,7 +107,7 @@ async function trackClick(shortCode: string, req: AuthRequest) {
   await Promise.all([
     prisma.url.update({ where: { id: url.id }, data: { clicks: { increment: 1 } } }),
     prisma.clickAnalytic.create({
-      data: { urlId: url.id, ipAddress: ip, country, device, referrer },
+      data: { urlId: url.id, country, device, referrer },
     }),
   ])
 }

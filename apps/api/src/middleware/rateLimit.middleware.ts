@@ -17,11 +17,3 @@ export const shortenLimiter = rateLimit({
   keyGenerator: (req) =>
     (req.headers['x-forwarded-for'] as string)?.split(',')[0] || req.ip || 'unknown',
 })
-
-export const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 10,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { error: 'Too many auth attempts, please try again in 15 minutes' },
-})

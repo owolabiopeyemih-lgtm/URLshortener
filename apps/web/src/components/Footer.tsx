@@ -14,14 +14,6 @@ const links = [
     ],
   },
   {
-    heading: 'Account',
-    items: [
-      { label: 'Sign Up',   href: '/register' },
-      { label: 'Log In',    href: '/login' },
-      { label: 'Dashboard', href: '/dashboard' },
-    ],
-  },
-  {
     heading: 'Resources',
     items: [
       { label: 'How It Works', href: '/#how-it-works' },
@@ -47,7 +39,7 @@ export function Footer() {
   return (
     <footer className="bg-white dark:bg-dark-800 border-t border-slate-200 dark:border-white/10">
       {/* Main footer grid */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 grid grid-cols-2 lg:grid-cols-5 gap-x-6 gap-y-10 sm:gap-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 sm:gap-8">
 
         {/* Brand column — full width on mobile, one column on desktop */}
         <div className="col-span-2 lg:col-span-1">
@@ -80,7 +72,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Link columns — 2-up on mobile, 1 each on desktop */}
+        {/* Link columns */}
         {links.map(({ heading, items }) => (
           <div key={heading} className="col-span-1">
             <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">

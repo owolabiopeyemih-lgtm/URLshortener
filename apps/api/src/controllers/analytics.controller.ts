@@ -1,15 +1,13 @@
-import { Response } from 'express'
+import { Request, Response } from 'express'
 import { prisma } from '../config/database'
-import { AuthRequest } from '../middleware/auth.middleware'
 
-export async function getAnalytics(req: AuthRequest, res: Response) {
+export async function getAnalytics(req: Request, res: Response) {
   const { id } = req.params
 
   const url = await prisma.url.findUnique({
     where: { id },
     select: {
       id: true,
-      userId: true,
       clicks: true,
       shortCode: true,
       originalUrl: true,
@@ -19,9 +17,6 @@ export async function getAnalytics(req: AuthRequest, res: Response) {
 
   if (!url) {
     return res.status(404).json({ error: 'Link not found' })
-  }
-  if (url.userId !== req.userId) {
-    return res.status(403).json({ error: 'You do not own this link' })
   }
 
   const analytics = await prisma.clickAnalytic.findMany({
