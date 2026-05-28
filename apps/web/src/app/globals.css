@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Theme tokens ─────────────────────────────── */
+:root {
+  --bg:          #f8f9ff;
+  --bg-card:     #ffffff;
+  --bg-subtle:   #eef2ff;
+  --fg:          #1e1b4b;
+  --fg-muted:    #4338ca;
+  --fg-subtle:   #6366f1;
+  --border:      #e0e7ff;
+  --border-sub:  #eef2ff;
+  --ring:        rgba(99, 102, 241, 0.35);
+}
+
+.dark {
+  --bg:          #0a0a0f;
+  --bg-card:     #111118;
+  --bg-subtle:   #18181f;
+  --fg:          #f0f0f8;
+  --fg-muted:    #a0a0c0;
+  --fg-subtle:   #6e6e90;
+  --border:      rgba(255, 255, 255, 0.08);
+  --border-sub:  rgba(255, 255, 255, 0.04);
+  --ring:        rgba(99, 102, 241, 0.40);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+@layer utilities {
+  /* Semantic surface helpers */
+  .bg-page        { background-color: var(--bg); }
+  .bg-card        { background-color: var(--bg-card); }
+  .bg-subtle      { background-color: var(--bg-subtle); }
+  .text-base      { color: var(--fg); }
+  .text-muted     { color: var(--fg-muted); }
+  .text-subtle    { color: var(--fg-subtle); }
+  .border-theme   { border-color: var(--border); }
+  .border-sub     { border-color: var(--border-sub); }
+  .ring-brand     { box-shadow: 0 0 0 3px var(--ring); }
+
+  /* Hero — light mode */
+  .mesh-gradient {
+    background:
+      radial-gradient(ellipse 110% 65% at 50% -5%,  rgba(99, 102, 241, 0.38) 0%, transparent 58%),
+      radial-gradient(ellipse 60%  55% at 95% 55%,  rgba(124, 58, 237, 0.20) 0%, transparent 52%),
+      radial-gradient(ellipse 55%  50% at 5%  70%,  rgba(99, 102, 241, 0.18) 0%, transparent 52%),
+      linear-gradient(180deg, #ffffff 0%, #eef2ff 100%);
+  }
+
+  /* Hero — dark mode */
+  .dark .mesh-gradient {
+    background:
+      radial-gradient(ellipse 80% 55% at 50% -8%,  rgba(99, 102, 241, 0.50) 0%, transparent 60%),
+      radial-gradient(ellipse 45% 40% at 92% 45%,  rgba(124, 58, 237, 0.22) 0%, transparent 52%),
+      radial-gradient(ellipse 40% 38% at 6%  78%,  rgba(99, 102, 241, 0.16) 0%, transparent 50%),
+      #0a0a0f;
+  }
+
+  /* Dot-grid — light mode */
+  .grid-pattern {
+    background-image: radial-gradient(circle, rgba(99, 102, 241, 0.28) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+  }
+
+  /* Dot-grid — dark mode (indigo-tinted, visible on near-black) */
+  .dark .grid-pattern {
+    background-image: radial-gradient(circle, rgba(99, 102, 241, 0.18) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Glass card — light mode */
+  .glass {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(99, 102, 241, 0.20);
+    box-shadow: 0 4px 24px rgba(99, 102, 241, 0.08);
+  }
+
+  /* Glass card — dark mode */
+  .dark .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: none;
+  }
+
+  /* Heading gradient — light: deep indigo for contrast on vibrant bg */
+  .text-gradient {
+    background: linear-gradient(135deg, #1e1b4b 0%, #3730a3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Heading gradient — dark: soft indigo-to-lavender */
+  .dark .text-gradient {
+    background: linear-gradient(135deg, #c7d2fe 0%, #e0e7ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-slide-up  { animation: slide-up  0.35s ease forwards; }
+.animate-scale-in  { animation: scale-in  0.25s ease forwards; }
